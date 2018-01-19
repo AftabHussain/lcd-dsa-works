@@ -7,7 +7,7 @@
  * Environment Data
  */
 typedef struct device_manager {
-	char log [10][10];
+	char *log [10];
 	int dev_count;
 } device_manager;
 
@@ -19,10 +19,13 @@ device_manager dm;
  */
 void reg_device(char *name, struct device *dev){
 
-	//write LCD data (cross-domain)
+	//read/write LCD data (cross-domain)
 	dev->name = name;
 	
-	//write LCD data (cross-domain)
+	//write Env data (intra-domain)
+	dm.log[dm.dev_count] = name;	
+
+	//read/write LCD data (cross-domain)
 	strcpy(dev->status,"ready");
 
 	//write Env data (intra-domain)
