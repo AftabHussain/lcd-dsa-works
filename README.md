@@ -1,5 +1,3 @@
-## Repo Contents
+## Works on IDL generation for LCDs.
 
-Works related to IDL generation for LCDs.
-
-Forked dsa-generator [here](https://github.com/AftabHussain/DataStructureAnalysis). 
+Forked dsa-generator [here](https://github.com/AftabHussain/DataStructureAnalysis/tree/dsa_llvm3.8). 
