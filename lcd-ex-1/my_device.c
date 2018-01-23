@@ -3,8 +3,14 @@
 #include "stdio.h"
 #include "device.h"
 
-int main() {
 
+static int mydev_init(struct device_operations *devops){}
+
+static void mydev_uninit(struct device_operations *devops){}
+
+
+int main() {
+	
         /* 
          * struct device (LCD Data) is defined in device.h
          */	
@@ -20,4 +26,17 @@ int main() {
 	 * An invocation to the environment from the LCD
 	 */
 	my_printer.set_device("PRINTER", &my_printer);
+
+
+	/*
+	 * initializing some fields of devops struct
+	 */
+	static struct device_operations devops = {
+		.dop_init	= mydev_init,
+		.dop_uninit	= mydev_uninit,
+	};
+	
+	reg_devops(&devops);
+	
+
 }
