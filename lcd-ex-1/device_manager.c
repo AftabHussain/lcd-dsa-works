@@ -48,5 +48,6 @@ static int reg_devops(struct device_operations *devops){
 	dm.dev_reg_count++;
 	devops->devop_init_registered = 1;
 	devops->dop_init(devops);
-
+	
+	return 1;
 };

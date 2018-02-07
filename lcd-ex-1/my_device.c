@@ -4,9 +4,13 @@
 #include "device.h"
 
 
-static int mydev_init(struct device_operations *devops){}
+static int mydev_init(struct device_operations *devops){
+	//do something
+}
 
-static void mydev_uninit(struct device_operations *devops){}
+static void mydev_uninit(struct device_operations *devops){
+	//do something
+}
 
 
 int main() {
@@ -35,8 +39,12 @@ int main() {
 		.dop_init	= mydev_init,
 		.dop_uninit	= mydev_uninit,
 	};
-	
-	reg_devops(&devops);
+
+	/* 
+         * reg_devops is an environment fn, defined in device.h
+         * as a prototype (it is static)
+         */
+        reg_devops(&devops);	
 	
 
 }
