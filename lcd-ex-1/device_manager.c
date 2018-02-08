@@ -1,4 +1,4 @@
-/**PART OF ENVIRONMENT (simulates the kernel)**/
+/**ENVIRONMENT (simulates the kernel)**/
 
 #include "device.h"
 #include "string.h"
@@ -39,15 +39,16 @@ void reg_device(char *name, struct device *dev){
 
 /*
  * Also invoked by the LCD.
- * It calls LCD functions via the *devops struction function
+ * It calls LCD functions via the *devops struct function
  * pointers which updates the LCD data.
  * It also updates Environment data dev_reg_count	
  */
 static int reg_devops(struct device_operations *devops){
 	
+        struct packet p; 
 	dm.dev_reg_count++;
 	devops->devop_init_registered = 1;
-	devops->dop_init(devops);
+	devops->dop_init(&p);
 	
 	return 1;
 };

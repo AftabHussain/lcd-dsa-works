@@ -1,0 +1,54 @@
+     1	/**ENVIRONMENT (simulates the kernel)**/
+     2	
+     3	#include "device.h"
+     4	#include "string.h"
+     5	
+     6	/* 
+     7	 * Environment Data
+     8	 */
+     9	typedef struct device_manager {
+    10		char *log [10];
+    11		int dev_req_count;
+    12		int dev_reg_count;
+    13	} device_manager;
+    14	
+    15	device_manager dm;
+    16	
+    17	/*
+    18	 * Invoked by the LCD
+    19	 * It updates both Environment and LCD data
+    20	 */
+    21	void reg_device(char *name, struct device *dev){
+    22	
+    23		//read/write LCD data (cross-domain)
+    24		dev->name = name;
+    25		
+    26		//write Env data (intra-domain)
+    27		dm.log[dm.dev_req_count] = name;	
+    28	
+    29		//read/write LCD data (cross-domain)
+    30		strcpy(dev->status,"ready");
+    31	
+    32		//write Env data (intra-domain)
+    33		dm.dev_req_count++;
+    34	
+    35		//read/write LCD data (cross-domain)
+    36		dev->system_id = (dev->id * dm.dev_req_count)/1234;
+    37	
+    38	}
+    39	
+    40	/*
+    41	 * Also invoked by the LCD.
+    42	 * It calls LCD functions via the *devops struct function
+    43	 * pointers which updates the LCD data.
+    44	 * It also updates Environment data dev_reg_count	
+    45	 */
+    46	static int reg_devops(struct device_operations *devops){
+    47		
+    48	        struct packet p; 
+    49		dm.dev_reg_count++;
+    50		devops->devop_init_registered = 1;
+    51		devops->dop_init(&p);
+    52		
+    53		return 1;
+    54	};

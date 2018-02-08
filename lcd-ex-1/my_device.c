@@ -1,15 +1,19 @@
-/**PART OF LCD**/
+/**LCD**/
 
 #include "stdio.h"
 #include "device.h"
 
 
-static int mydev_init(struct device_operations *devops){
-	//do something
+/*Fn writes on data*/
+static int mydev_init(struct packet *p){
+        p->size = 0;
+        p->data = 0;
+	return 1;
 }
 
+/*Fn writes on data*/
 static void mydev_uninit(struct device_operations *devops){
-	//do something
+	devops->devop_init_registered = 0;
 }
 
 
@@ -44,7 +48,7 @@ int main() {
          * reg_devops is an environment fn, defined in device.h
          * as a prototype (it is static)
          */
-        reg_devops(&devops);	
+	reg_devops(&devops);
 	
 
 }

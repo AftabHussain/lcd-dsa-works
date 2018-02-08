@@ -1,0 +1,34 @@
+     1	#if !defined(__DEVICE_H__)
+     2	#define __DEVICE_H__ 
+     3	
+     4	struct packet {
+     5	   int size;
+     6	   char *data;
+     7	};
+     8	
+     9	struct device {
+    10		char *name;
+    11		char status[10];
+    12		void (*set_device)(char *dev_name, struct device *dev);	
+    13		float id;
+    14		float system_id;
+    15	};
+    16	
+    17	struct device_operations {
+    18		
+    19		/*FP arg is a struct var of struct packet*/
+    20		int	(*dop_init)(struct packet *p);
+    21	
+    22		/*FP arg is a struct var of FP's parent struct*/
+    23		void	(*dop_uninit)(struct device_operations *dev);
+    24	
+    25		int	(*dop_open)(struct device_operations *dev);
+    26		int	(*dop_stop)(struct device_operations *dev);
+    27		int	devop_init_registered;
+    28	};
+    29	
+    30	
+    31	void reg_device(char *name, struct device *dev);
+    32	static int reg_devops(struct device_operations *devops);
+    33	
+    34	#endif
